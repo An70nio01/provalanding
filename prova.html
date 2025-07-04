@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OptiWealth - Il tuo assistente intelligente per investimenti</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #0a0a0a;
+            color: white;
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .landing-container {
+            position: relative;
+            width: 100%;
+            max-width: 1200px;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-image: url('lavagna.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.5s ease;
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.8);
+        }
+
+        .landing-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            transition: all 0.3s ease;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .landing-container::after {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: radial-gradient(
+                circle,
+                rgba(0, 0, 0, 0) 0%,
+                rgba(0, 0, 0, 0) 30%,
+                rgba(0, 0, 0, 0.3) 50%,
+                rgba(0, 0, 0, 0.8) 100%
+            );
+            z-index: 1;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            transform: translate(-50%, -50%);
+        }
+
+        .landing-container:hover::after {
+            opacity: 1;
+        }
+
+        .landing-container:hover {
+            transform: scale(1.01);
+            box-shadow: 0 0 60px rgba(255, 255, 255, 0.1);
+        }
+
+        .content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            padding: 4rem 2rem;
+            max-width: 900px;
+        }
+
+        .logo-container {
+            margin-bottom: 3rem;
+            position: relative;
+            height: 180px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .particle-title {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .title-particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 4px rgba(255, 255, 255, 0.5);
+        }
+
+        .title-particle.glow {
+            box-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+            background: rgba(255, 255, 255, 1);
+        }
+
+        .tagline {
+            font-size: 2rem;
+            font-weight: 300;
+            color: #eee;
+            margin-bottom: 1.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+            opacity: 0.9;
+            transition: all 0.3s ease;
+        }
+
+        .landing-container:hover .tagline {
+            opacity: 1;
+            color: #fff;
+            text-shadow: 2px 2px 8px rgba(255, 255, 255, 0.3);
+        }
+
+        .description {
+            font-size: 1.3rem;
+            color: #ccc;
+            margin-bottom: 3rem;
+            line-height: 1.6;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+            opacity: 0.8;
+            transition: all 0.3s ease;
+        }
+
+        .landing-container:hover .description {
+            opacity: 1;
+            color: #f0f0f0;
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, #ff4b4b, #ff6b6b);
+            color: white;
+            padding: 1.2rem 3rem;
+            font-size: 1.3rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 75, 75, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(255, 75, 75, 0.5);
+            background: linear-gradient(135deg, #ff3333, #ff5555);
+        }
+
+        .cta-button:active {
+            transform: translateY(-1px) scale(1.02);
+        }
+
+        .rocket-icon {
+            font-size: 1.5rem;
+            animation: rocket 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes rocket {
+            0% { transform: translateY(0px); }
+            100% { transform: translateY(-5px); }
+        }
+
+        .features {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 2rem;
+            opacity: 0.7;
+            transition: opacity 0.3s ease;
+        }
+
+        .landing-container:hover .features {
+            opacity: 1;
+        }
+
+        .feature {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            color: #ccc;
+        }
+
+        .feature-icon {
+            font-size: 1.5rem;
+            color: #ff4b4b;
+        }
+
+        .torch-effect {
+            position: absolute;
+            width: 250px;
+            height: 250px;
+            border-radius: 50%;
+            background: radial-gradient(
+                circle,
+                rgba(255, 255, 255, 0.15) 0%,
+                rgba(255, 255, 255, 0.14) 30%,
+                rgba(0, 0, 0, 0.13) 60%,
+                rgba(0, 0, 0, 0.09) 100%
+            );
+            pointer-events: none;
+            z-index: 1;
+            transform: translate(-50%, -50%);
+            transition: all 0.1s ease;
+            mix-blend-mode: screen;
+        }         
+        
+        @media (max-width: 768px) {
+            .landing-container {
+                height: 100vh;
+                border-radius: 0;
+            }
+            
+            .content {
+                padding: 2rem 1rem;
+            }
+            
+            .logo-container {
+                height: 120px;
+            }
+            
+            .tagline {
+                font-size: 1.5rem;
+            }
+            
+            .description {
+                font-size: 1.1rem;
+            }
+            
+            .cta-button {
+                padding: 1rem 2rem;
+                font-size: 1.1rem;
+            }
+            
+            .features {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .particle {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0; }
+            50% { transform: translateY(-20px) rotate(180deg); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="landing-container">
+        <div class="particles" id="particles"></div>
+        
+        <div class="content">
+            <div class="logo-container">
+                <div class="particle-title" id="particleTitle"></div>
+            </div>
+            
+            <h2 class="tagline">Il tuo assistente intelligente per investimenti</h2>
+            
+            <p class="description">
+                Costruisci, ottimizza e simula il tuo portafoglio con strumenti avanzati e reportistica AI
+            </p>
+            
+            <button class="cta-button" onclick="redirectToStreamlit()">
+               <span class="rocket-icon">🚀</span>
+               Start Now
+            </button>
+        </div>
+        
+        <div class="features">
+            <div class="feature">
+                <div class="feature-icon">🎯</div>
+                <span>Ottimizzatore</span>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">📊</div>
+                <span>Simulatore</span>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">🤖</div>
+                <span>AI Reports</span>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">💼</div>
+                <span>Portafogli</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function redirectToStreamlit() {
+            window.location.href = 'http://localhost:8501'; 
+        }
+
+        // Variabili per le particelle del titolo
+        let titleParticles = [];
+        let mouseX = 0;
+        let mouseY = 0;
+        let isMouseOver = false;
+
+        // Funzione per creare le particelle del titolo (effetto negativo)
+        function createTitleParticles() {
+            const container = document.getElementById('particleTitle');
+            const containerRect = container.getBoundingClientRect();
+            
+            // Configurazione del testo
+            const text = 'OPTIWEALTH';
+            const fontSize = 110;
+            const fontWeight = 'bold';
+            const fontFamily = 'Arial, sans-serif';
+            
+            // Crea un canvas temporaneo per ottenere le posizioni delle particelle
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = 700;
+            canvas.height = 180;
+            
+            // Riempie tutto di bianco
+            ctx.fillStyle = 'white';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Imposta il font per il testo da ritagliare
+            ctx.font = `${fontWeight} ${fontSize}px ${fontFamily}`;
+            ctx.fillStyle = 'black'; // Nero per creare il "buco"
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.globalCompositeOperation = 'destination-out'; // Modalità ritaglio
+            
+            // Disegna il testo che diventerà trasparente
+            ctx.fillText(text, canvas.width / 2, canvas.height / 2);
+            
+            // Ripristina la modalità normale
+            ctx.globalCompositeOperation = 'source-over';
+            
+            // Ottieni i dati dell'immagine
+            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            const data = imageData.data;
+            
+            // Crea le particelle basandosi sui pixel BIANCHI (sfondo)
+            const spacing = 4; // Distanza tra le particelle
+            for (let y = 0; y < canvas.height; y += spacing) {
+                for (let x = 0; x < canvas.width; x += spacing) {
+                    const index = (y * canvas.width + x) * 4;
+                    const red = data[index];
+                    const green = data[index + 1];
+                    const blue = data[index + 2];
+                    const alpha = data[index + 3];
+                    
+                    // Se il pixel è bianco (sfondo) e non trasparente
+                    if (red > 200 && green > 200 && blue > 200 && alpha > 200) {
+                        const particle = document.createElement('div');
+                        particle.className = 'title-particle';
+                        
+                        // Calcola la posizione relativa al container
+                        const relativeX = (x / canvas.width) * 100;
+                        const relativeY = (y / canvas.height) * 100;
+                        
+                        particle.style.left = `${relativeX}%`;
+                        particle.style.top = `${relativeY}%`;
+                        
+                        // Salva la posizione originale
+                        particle.originalX = relativeX;
+                        particle.originalY = relativeY;
+                        
+                        container.appendChild(particle);
+                        titleParticles.push(particle);
+                    }
+                }
+            }
+        }
+
+        // Funzione per animare le particelle del titolo
+        function animateTitleParticles() {
+            if (!isMouseOver) return;
+            
+            const container = document.getElementById('particleTitle');
+            const containerRect = container.getBoundingClientRect();
+            
+            titleParticles.forEach(particle => {
+                const particleRect = particle.getBoundingClientRect();
+                const particleCenterX = particleRect.left + particleRect.width / 2;
+                const particleCenterY = particleRect.top + particleRect.height / 2;
+                
+                // Calcola la distanza dal mouse
+                const deltaX = mouseX - particleCenterX;
+                const deltaY = mouseY - particleCenterY;
+                const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+                
+                // Parametri per l'effetto magnetico opposto
+                const maxDistance = 150;
+                const repulsionForce = 80;
+                
+                if (distance < maxDistance && distance > 0) {
+                    // Calcola la forza di repulsione
+                    const force = (maxDistance - distance) / maxDistance;
+                    const repulsionX = (-deltaX / distance) * force * repulsionForce;
+                    const repulsionY = (-deltaY / distance) * force * repulsionForce;
+                    
+                    // Applica la repulsione
+                    const newX = particle.originalX + (repulsionX / containerRect.width) * 100;
+                    const newY = particle.originalY + (repulsionY / containerRect.height) * 100;
+                    
+                    particle.style.left = `${newX}%`;
+                    particle.style.top = `${newY}%`;
+                    particle.style.transform = `scale(${1 + force * 0.5})`;
+                    particle.classList.add('glow');
+                } else {
+                    // Ritorna alla posizione originale
+                    particle.style.left = `${particle.originalX}%`;
+                    particle.style.top = `${particle.originalY}%`;
+                    particle.style.transform = 'scale(1)';
+                    particle.classList.remove('glow');
+                }
+            });
+        }
+
+        // Event listeners per il mouse
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            animateTitleParticles();
+        });
+
+        const container = document.querySelector('.landing-container');
+        container.addEventListener('mouseenter', () => {
+            isMouseOver = true;
+        });
+
+        container.addEventListener('mouseleave', () => {
+            isMouseOver = false;
+            // Riporta tutte le particelle alla posizione originale
+            titleParticles.forEach(particle => {
+                particle.style.left = `${particle.originalX}%`;
+                particle.style.top = `${particle.originalY}%`;
+                particle.style.transform = 'scale(1)';
+                particle.classList.remove('glow');
+            });
+        });
+
+        // Crea particelle animate di sfondo
+        function createParticles() {
+            const particles = document.getElementById('particles');
+            const particleCount = 20;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                
+                const size = Math.random() * 4 + 2;
+                particle.style.width = size + 'px';
+                particle.style.height = size + 'px';
+                
+                particle.style.animationDuration = (Math.random() * 3 + 3) + 's';
+                particle.style.animationDelay = Math.random() * 2 + 's';
+                
+                particles.appendChild(particle);
+            }
+        }
+
+        // Effetto torcia che segue il mouse (solo nella parte inferiore per evitare conflitti)
+        container.addEventListener('mousemove', (e) => {
+            const rect = container.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            // Applica l'effetto torcia solo se non siamo nell'area del titolo
+            const titleArea = document.getElementById('particleTitle');
+            const titleRect = titleArea.getBoundingClientRect();
+            const containerRect = container.getBoundingClientRect();
+            
+            const titleRelativeTop = titleRect.top - containerRect.top;
+            const titleRelativeBottom = titleRect.bottom - containerRect.top;
+            
+            // Solo se il mouse non è nell'area del titolo
+            if (y < titleRelativeTop - 50 || y > titleRelativeBottom + 50) {
+                let torchElement = container.querySelector('.torch-effect');
+                if (!torchElement) {
+                    torchElement = document.createElement('div');
+                    torchElement.className = 'torch-effect';
+                    container.appendChild(torchElement);
+                }
+                
+                torchElement.style.left = x + 'px';
+                torchElement.style.top = y + 'px';
+                torchElement.style.opacity = '1';
+            } else {
+                // Nascondi l'effetto torcia nell'area del titolo
+                const torchElement = container.querySelector('.torch-effect');
+                if (torchElement) {
+                    torchElement.style.opacity = '0';
+                }
+            }
+            
+            // Effetto sulle particelle di sfondo
+            const particles = document.querySelectorAll('.particle');
+            particles.forEach((particle, index) => {
+                const particleRect = particle.getBoundingClientRect();
+                const containerRect = container.getBoundingClientRect();
+                const particleX = particleRect.left + particleRect.width / 2 - containerRect.left;
+                const particleY = particleRect.top + particleRect.height / 2 - containerRect.top;
+                
+                const distance = Math.sqrt(
+                    Math.pow(x - particleX, 2) + Math.pow(y - particleY, 2)
+                );
+                
+                const maxDistance = 550;
+                const intensity = Math.max(0, 1 - distance / maxDistance);
+                
+                particle.style.opacity = intensity * 0.8;
+                particle.style.background = `rgba(255, 255, 255, ${intensity * 0.3})`;
+                particle.style.transform = `scale(${1 + intensity * 0.5})`;
+            });
+        });
+
+        container.addEventListener('mouseleave', () => {
+            const torchElement = container.querySelector('.torch-effect');
+            if (torchElement) {
+                torchElement.style.opacity = '0';
+            }
+            
+            const particles = document.querySelectorAll('.particle');
+            particles.forEach(particle => {
+                particle.style.opacity = '0.1';
+                particle.style.background = 'rgba(255, 255, 255, 0.1)';
+                particle.style.transform = 'scale(1)';
+            });
+        });
+
+        // Inizializza tutto
+        createParticles();
+        createTitleParticles();
+    </script>
+</body>
+</html>
